@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using HtmlAgilityPack;
 using System.IO;
 using Newtonsoft.Json;
@@ -17,13 +14,13 @@ namespace TemaParser
             var reviewsList = new List<Review>();
             var reviewsPage = getContent(uriToDownload);
             HtmlNodeCollection reviewLinks = reviewsPage.DocumentNode.SelectNodes("//td/div/span | //td/div/a");
-            //for (int i = 0; i < reviewLinks.Count; i += 2)
-            for (int i = 0; i < 20; i += 2)
+            for (int i = 0; i < reviewLinks.Count; i += 2)
+            //for (int i = 0; i < 20; i += 2)
             {
                 try
                 {
-                    reviewsList.Add(new Review { date = reviewLinks[i].InnerHtml.ToString() });
-                    reviewsList[reviewsList.Count - 1].link = "https://www.artlebedev.ru" + reviewLinks[i + 1].OuterHtml.ToString().Split('"')[1];
+                    reviewsList.Add(new Review { date = reviewLinks[i + 1].OuterHtml.ToString().Split('"')[1].Substring(reviewLinks[i + 1].OuterHtml.ToString().Split('"')[1].Length - 12) });
+                    reviewsList[reviewsList.Count - 1].link = "https://www.artlebedev.ru/kovodstvo/business-lynch" + reviewsList[reviewsList.Count - 1].date;
                     var reviewPage = getContent(reviewsList[reviewsList.Count - 1].link);
                     reviewsList[reviewsList.Count - 1].comments = getReviewComments(reviewPage);
                     reviewsList[reviewsList.Count - 1].text = getReviewText(reviewPage);
