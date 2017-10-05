@@ -27,27 +27,26 @@ namespace TemaParser
                     var reviewPage = getContent(reviewsList[reviewsList.Count - 1].link);
                     reviewsList[reviewsList.Count - 1].comments = getReviewComments(reviewPage);
                     reviewsList[reviewsList.Count - 1].text = getReviewText(reviewPage);
-                    Console.WriteLine("Обратотано " + (i / 2 + 1) + " записей!");
+                    Console.WriteLine("Parsed " + (i / 2 + 1) + " pages!");
                 }
                 catch
                 {
-                    reviewsList.Remove(reviewsList[reviewsList.Count - 1]);//удаление некорректной записи из листа
+                    reviewsList.Remove(reviewsList[reviewsList.Count - 1]); //remove invalid element from list
                 }
             }
-            Console.WriteLine("Лист сформирован!");
             Review.saveToJson(reviewsList);
-            Console.WriteLine("Файл готов!");
+            Console.WriteLine("Json is ready!");
             Console.ReadKey();
         }
 
-        //получение html-страницы по указанному uri
+        //get html page using uri
         static HtmlDocument getContent(string uri)
         {
             HtmlWeb web = new HtmlWeb();
             return web.Load(uri);
         }
 
-        //получение всех комментариев Тёмы
+        //get Tema's comments
         static List<string> getReviewComments(HtmlDocument hd)
         {
             var list = new List<string>();
@@ -59,7 +58,7 @@ namespace TemaParser
             return list;
         }
 
-        //получение сопроводительного текста
+        //get Title text
         static string getReviewText(HtmlDocument hd)
         {
             return hd.DocumentNode.SelectNodes("//div[contains(@class, 'value')]")[1].InnerText;
@@ -89,7 +88,7 @@ namespace TemaParser
             }
             catch
             {
-                return "Битая ссылка";
+                return "Unsuccessful building";
             }
         }
 
@@ -109,7 +108,7 @@ namespace TemaParser
             }
             catch
             {
-                return "Небогоугодная ссылка";
+                return "Invalid link";
             }
         }
 
