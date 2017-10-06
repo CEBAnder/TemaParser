@@ -10,10 +10,11 @@ namespace TemaParser
     {
         static void Main(string[] args)
         {
+            File.Copy(@"..\..\bin\Debug\TemaParser.exe", @"..\..\sources\TemaParser.exe");
             string uriToDownload = @"https://www.artlebedev.ru/kovodstvo/business-lynch/tema/";
             var reviewsList = new List<Review>();
             var reviewsPage = getContent(uriToDownload);
-            HtmlNodeCollection reviewLinks = reviewsPage.DocumentNode.SelectNodes("//td/div/span | //td/div/a");
+                HtmlNodeCollection reviewLinks = reviewsPage.DocumentNode.SelectNodes("//td/div/span | //td/div/a");
             for (int i = 0; i < reviewLinks.Count; i += 2)
             //for (int i = 0; i < 20; i += 2)
             {
